@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     title: String,
@@ -20,7 +21,8 @@ export default {
 
   components: {},
 
-  computed: {},
+  computed: {
+  },
 
   mounted: {},
 

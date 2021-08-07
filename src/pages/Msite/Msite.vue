@@ -14,6 +14,18 @@
         </span>
       </template>
     </HeaderTop>
+    <!-- <HeaderTop :title="address.name">
+      <template v-slot:left>
+        <span class="header_search">
+          <i class="iconfont icon-sousuo"></i>
+        </span>
+      </template>
+      <template v-slot:right>
+        <span class="header_login">
+          <span class="header_login_text">登录|注册</span>
+        </span>
+      </template>
+    </HeaderTop> -->
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
@@ -137,7 +149,7 @@
 
 <script>
 import HeaderTop from "../../components/HeaderTop/HeaferTop.vue";
-
+import {mapState,mapActions} from 'vuex'
 import ShopList from "../../components/ShopList/ShopList.vue";
 export default {
   components: {
@@ -148,11 +160,17 @@ export default {
     return {};
   },
 
-  computed: {},
+  computed: {
+    ...mapState(['address'])
+  },
 
-  mounted: {},
+  mounted: {
+    this.$store.dispatch('getCategorys')
+  },
 
-  methods: {},
+  methods: {
+    
+  },
 };
 </script>
 <style lang='stylus' scoped>
