@@ -2,19 +2,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <HeaderTop title="昌平区北七家宏福科技园(337省道北)">
-      <template v-slot:left>
-        <span class="header_search">
-          <i class="iconfont icon-sousuo"></i>
-        </span>
-      </template>
-      <template v-slot:right>
-        <span class="header_login">
-          <span class="header_login_text">登录|注册</span>
-        </span>
-      </template>
-    </HeaderTop>
-    <!-- <HeaderTop :title="address.name">
+    <!-- <HeaderTop title="昌平区北七家宏福科技园(337省道北)">
       <template v-slot:left>
         <span class="header_search">
           <i class="iconfont icon-sousuo"></i>
@@ -26,10 +14,28 @@
         </span>
       </template>
     </HeaderTop> -->
+    <HeaderTop :title="address.name">
+      <template v-slot:left>
+        <router-link class="header_search" to="/search">
+          <i class="iconfont icon-sousuo"></i>
+        </router-link>
+      </template>
+      <template v-slot:right>
+        <router-link class="header_login" :to="userInfo._id?'/userinfo':'/login'">
+          <span class="header_login_text" v-if="!userInfo._id">
+            登录|注册
+          </span>
+           <span class="header_login_text" v-else>
+            <i class="iconfont icon-geren"></i>
+          </span>
+        </router-link>
+      </template>
+    </HeaderTop>
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
         <div class="swiper-wrapper">
+          
           <div class="swiper-slide">
             <div class="link_to_food">
               <div class="food_container">
@@ -157,19 +163,38 @@ export default {
     ShopList,
   },
   data() {
-    return {};
+    return {
+      baseImageUrl:"https://fuss10.elemecdn.com"
+    };
   },
 
   computed: {
-    ...mapState(['address'])
+    ...mapState(['address','categorys','userInfo']),
+    categorysArr(){
+      const {categorys}=this
+      const arr=[]
+      let minArr=[]
+      const wei=categorys.length%8
+      const weiArr=categorys.splice(categorys.length-wei,categorys.length);
+      categorys.forEach(c => {
+        minArr.push(c)
+        if(minArr.length===8){
+          arr.push(minArr)
+          minArr=[]
+        } 
+      });
+      arr.push(weiArr)
+
+      return arr
+    }
   },
 
-  mounted: {
-    this.$store.dispatch('getCategorys')
+  mounted() {
+    this.getCategorys()
   },
 
   methods: {
-    
+    ...mapActions(['getCategorys'])
   },
 };
 </script>

@@ -3,12 +3,13 @@
   <section class="search">
   
     <HeaderTop title="搜索" />
-    <form class="search_form" action="#">
+    <form class="search_form" action="#" @submit.prevent="search">
       <input
         type="search"
         name="search"
         placeholder="请输入商家或美食名称"
         class="search_input"
+        v-model="keyword"
       />
       <input type="submit" name="submit" class="search_submit" />
     </form>
@@ -16,22 +17,34 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import HeaderTop from '../../components/HeaderTop/HeaferTop.vue'
-
+import {reqSearchShops} from '../../api'
 export default {
   data() {
-    return {};
+    return {
+      keyword:''
+    };
   },
 
   components: {
     HeaderTop
   },
 
-  computed: {},
+  computed: {
+    ...mapState(['searchShops'])
+  },
 
   mounted: {},
 
-  methods: {},
+  methods: {
+    search(){
+      const keyword=this.keyword.trim()
+      if(keyword){
+        this.$store.dispatch('searchShop',keyword)
+      }
+    }
+  },
 };
 </script>
 <style lang='stylus' scoped>
